@@ -51,12 +51,34 @@ J = J + (lambda/2) * sum(sum(X .^2)); % adding regularization term 2
 
 % Gradient
 X_grad = diff' * Theta;
-X_grad = X_grad + lambda * X;
+X_grad = X_grad + lambda * X; % adding regularization term
 Theta_grad = diff * X;
-Theta_grad = Theta_grad + lambda * Theta;
+Theta_grad = Theta_grad + lambda * Theta; % adding regularization term
 
+% to see why X_grad = diff' * Theta:
+% diff is basically a matrix of all the diff of ratings - users by movies, calculated in cost function.
+% diff' is matrix of diff of ratings, movies by users
+% Theta is rows of users' theta-transposed. So, users by his theta-transposed (Note each component of theta corresponds to a feature in x).
+% Multiply the two, looking at one row of diff' by one column of Theta, 
+% We're summing across all users of the following product: 
+% - rating diff of a moive by 
+% - a component of theta
+% this makes one single entry of the gradient.
+% The result of the full multiplication is a matrix of gradient -  
+% number of movies by number of features.
 
+% Similar explanation for Theta_grad.
+% Theta_grad = diff * X;
+% diff is matrix of diff ratings, users by movies.
+% X is, rows of movies'  x-transposed (each row is a feature vector), movies by features
+% Multiply the two, looking at one row of diff by one column of X,
+% We're summing across all movies of the following product:
+% - a user's ratings across movies by
+% - a feature's score across movies
+% The result of the full multiplication is a matrix of gradient -
+% number of users by number of features
 
+% It helps to understand if drawing out how the matrix mulitplications work.
 
 
 
