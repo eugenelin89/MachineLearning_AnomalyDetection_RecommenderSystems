@@ -46,11 +46,14 @@ H = H .* R';
 diff = H - (Y .* R)';
 sqd = diff .^ 2;
 J = sum(sum(sqd))/2;
-
+J = J + (lambda/2) * sum(sum(Theta .^2)); % adding regularization term 1
+J = J + (lambda/2) * sum(sum(X .^2)); % adding regularization term 2
 
 % Gradient
 X_grad = diff' * Theta;
+X_grad = X_grad + lambda * X;
 Theta_grad = diff * X;
+Theta_grad = Theta_grad + lambda * Theta;
 
 
 
